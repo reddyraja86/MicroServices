@@ -2,6 +2,17 @@
 
 Microservices is an echo system where we need to follow certain priciples.
 
+Design Patterns has to be implemented :
+
+1)Configuration
+2)Discovery Services
+3)API gateway
+4)Caching
+5)Logging
+6)CQRS & SEGA design patterns
+
+Need to identify the service mesh and side car design patterns.
+
 1) Configuration Management
 
   Here the configuration is saved in Git repository and Configuration server will read this data from the gut resposritory.
