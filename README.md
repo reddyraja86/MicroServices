@@ -9,7 +9,7 @@ Design Patterns has to be implemented :
 3)API gateway
 4)Caching
 5)Logging
-6)CQRS & SEGA design patterns
+6) data sharing between micro services CQRS & SEGA design patterns
 
 Need to identify the service mesh and side car design patterns.
 
