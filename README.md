@@ -11,6 +11,16 @@ Design Patterns has to be implemented :
 5)Logging
 6) data sharing between micro services CQRS & SEGA design patterns
 
+Load balancing
+Service discovery
+Health checks
+Authentication
+Traffic management and routing
+Circuit breaking and failover policy
+Security
+Metrics and telemetry
+Fault injection
+
 Need to identify the service mesh and side car design patterns.
 
 1) Configuration Management
