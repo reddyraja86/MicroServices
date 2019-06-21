@@ -59,6 +59,13 @@ file.
 		private String owner;
 
 
+We can configure different properties files like  application-dev.properties,application-qa.properties,application-prod.properties  
+based on the profile we setup different configurations will be picked up by spring application.
+
+
+* Spring Configserver
+
+	All the above we are not storing the configuration in central server and all the micro services need a central configuration to read these properties.
 
 Here the configuration is saved in Git repository and Configuration server will read this data from the gut resposritory.
   All the clinet applications will be read the configuration by connecting to configuration server.
