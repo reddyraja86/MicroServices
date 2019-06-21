@@ -53,6 +53,11 @@ file.
 
 		}
 
+* Reading the properties by <b>@value</b>   
+
+		@Value("${apartment.owner}")
+		private String owner;
+
 
 
 Here the configuration is saved in Git repository and Configuration server will read this data from the gut resposritory.
