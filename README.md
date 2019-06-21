@@ -18,9 +18,9 @@ Circuit breaking and failover policy
 Security  
 Metrics and telemetry  
 Fault injection  
-# Need to identify the service mesh and side car design patterns.  
-# Need to complete the Caching with Redis 
-# Need to complete Oauth2
+### Need to identify the service mesh and side car design patterns.  
+### Need to complete the Caching with Redis 
+### Need to complete Oauth2
 1) Configuration Management  
 
   Here the configuration is saved in Git repository and Configuration server will read this data from the gut resposritory.
