@@ -21,9 +21,41 @@ Fault injection
 ### Need to identify the service mesh and side car design patterns.  
 ### Need to complete the Caching with Redis 
 ### Need to complete Oauth2
-1) Configuration Management  
 
-  Here the configuration is saved in Git repository and Configuration server will read this data from the gut resposritory.
+## 1) Configuration Management  
+
+* Reading properties using <b> @ConfigurationProperties</b>  
+	We can use this annnotation on any configuration class and define properties for the variables defined in application.properties
+file. 
+
+	*Application.properties*  
+	
+		apartment.name=Sindhu Residency  
+		apartment.owner= John  
+		apartment.noofflats=20  
+		apartment.location=Hyderabad  
+
+	*Configuration class*  
+
+		package com.basicauth.demo;
+
+		import org.springframework.boot.context.properties.ConfigurationProperties;
+		import org.springframework.stereotype.Component;
+
+		@Component
+		@ConfigurationProperties("apartment")
+		public class Configuration {
+			private String name;
+			private String owner;
+			
+			private String noofflats;
+			private String location;
+
+		}
+
+
+
+Here the configuration is saved in Git repository and Configuration server will read this data from the gut resposritory.
   All the clinet applications will be read the configuration by connecting to configuration server.
   
 2) Discovery Server 
