@@ -18,9 +18,10 @@ Circuit breaking and failover policy
 Security  
 Metrics and telemetry  
 Fault injection  
-### Need to identify the service mesh and side car design patterns.  
-### Need to complete the Caching with Redis 
-### Need to complete Oauth2
+##### Need to identify the service mesh and side car design patterns.  
+##### Need to complete the Caching with Redis 
+##### Need to complete Oauth2  
+##### Need to implement config server & discovery with consul
 
 ## 1) Configuration Management  
 
