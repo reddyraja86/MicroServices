@@ -63,12 +63,54 @@ We can configure different properties files like  application-dev.properties,app
 based on the profile we setup different configurations will be picked up by spring application.
 
 
-* <b>Spring CloudConfigserver</b>  
+*  <b>Spring CloudConfigserver</b>  
 
-	All the above we are not storing the configuration in central server and all the micro services need a central configuration to read these properties.
+	All the above we are not storing the configuration in central server and all the micro services need a central configuration to 	read these properties.
 
-Here the configuration is saved in Git repository and Configuration server will read this data from the gut resposritory.
-  All the clinet applications will be read the configuration by connecting to configuration server.
+	Here the configuration is saved in Git repository and Configuration server will read this data from the git resposritory.
+	All the clinet applications will be read the configuration by connecting to configuration server.
+	
+	*  <b>Implementing Cloud Config server</b>  
+	
+	Create spring boot configuration server which will read the properties from the GIT Repository.
+	
+	Need to add the config server dependency and Enable the  <b> @EnableDiscoveryClient @EnableConfigServer </b>
+
+		@SpringBootApplication
+		@EnableDiscoveryClient
+		@EnableConfigServer
+		public class ConfigServerDemoApplication {
+
+			public static void main(String[] args) {
+				SpringApplication.run(ConfigServerDemoApplication.class, args);
+			}
+
+		}
+	
+	Add the Git details in application.properties file,
+	Note: Here the application name and properites file in GIT repo should be same
+	
+		spring.application.name=<git properties file name>
+		server.port=8888
+		spring.cloud.config.server.git.uri=https://github.com/reddyraja86/MicroServices.git
+		spring.cloud.config.server.git.username=reddyraja86@gmail.com
+		spring.cloud.config.server.git.password=<passowrd>
+		spring.cloud.config.server.bootstrap=true
+
+	*  <b>Implementing Cloud Config client</b>   
+	
+	This will read the properties from the config server, we need to provide the details of config server here.
+	
+
+		apartment.owner= John 
+		apartment.noofflats=20  
+		apartment.location=Hyderabad  
+		spring.cloud.config.uri=http://localhost:8888
+		spring.application.name=<name of the confg file in GIT>
+		management.security.enabled=false
+		
+ 
+ 
   
 2) Discovery Server 
    Here the Eureka Server will act as a discovery server
