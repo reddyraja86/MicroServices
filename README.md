@@ -63,7 +63,7 @@ We can configure different properties files like  application-dev.properties,app
 based on the profile we setup different configurations will be picked up by spring application.
 
 
-* Spring Configserver
+* <b>Spring CloudConfigserver</b>  
 
 	All the above we are not storing the configuration in central server and all the micro services need a central configuration to read these properties.
 
