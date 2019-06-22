@@ -27,7 +27,7 @@ Fault injection
 
 * Reading properties using <b> @ConfigurationProperties</b>  
 	We can use this annnotation on any configuration class and define properties for the variables defined in application.properties
-file. 
+	file. 
 
 	*Application.properties*  
 	
@@ -60,8 +60,7 @@ file.
 		private String owner;
 
 
-We can configure different properties files like  application-dev.properties,application-qa.properties,application-prod.properties  
-based on the profile we setup different configurations will be picked up by spring application.
+	We can configure different properties files like  application-dev.properties,application-						qa.properties,application.prod.properties based on the profile we setup different configurations will be picked up by spring 		application.
 
 
 *  <b>Spring CloudConfigserver</b>  
@@ -111,9 +110,8 @@ based on the profile we setup different configurations will be picked up by spri
 		management.security.enabled=false
 		
  
- 
+## 2) Discovery Server     
   
-2) Discovery Server 
    Here the Eureka Server will act as a discovery server
    
    We need to add the Eureka Server Dependency in eureka server side and add @EnableEurekaServer annotation
