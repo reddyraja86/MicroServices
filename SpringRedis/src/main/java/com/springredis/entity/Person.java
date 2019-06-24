@@ -1,23 +1,19 @@
-package com.springmango.entities;
+package com.springredis.entity;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@NoArgsConstructor
-@Data
-@Document
-public class Person {
+@Entity
+public class Person implements Serializable{
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private BigInteger id;
-	private String name;
-	private String address;
 
 	public BigInteger getId() {
 		return id;
@@ -26,6 +22,12 @@ public class Person {
 	public void setId(BigInteger id) {
 		this.id = id;
 	}
+
+	private String name;
+
+	private String address;
+
+	
 
 	public String getName() {
 		return name;
@@ -43,5 +45,4 @@ public class Person {
 		this.address = address;
 	}
 
-	
 }
