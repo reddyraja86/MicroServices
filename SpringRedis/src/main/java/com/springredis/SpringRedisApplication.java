@@ -24,12 +24,12 @@ public class SpringRedisApplication {
 
 		Person p = new Person();
 		p.setId(new BigInteger("1"));
-		p.setName("Raju");
+		p.setName("Karthi");
 		p.setAddress("Hyderabad");
 
 		Person p1 = new Person();
 		p1.setId(new BigInteger("2"));
-		p1.setName("Anjali");
+		p1.setName("Surya");
 		p1.setAddress("Vizag");
 
 
