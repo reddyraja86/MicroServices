@@ -130,6 +130,11 @@ Fault injection
     eureka.client.service-url.default-zone=http://localhost:8761/eureka/  
     eureka.instance.hostname=localhost  
 
+
+## 3) API gateway
+
+
+
 ## Spring Security :  
 Spring will have   
 Basic Security :  
@@ -156,7 +161,7 @@ class UsersService  implements org.springframework.security.core.userdetails.Use
 In above we have integrated with the userRepository and get the userdetails.Once we got the user details from repository we will
 return the spring security User object which is an implementatiton of User Details Service.  
 
-## Spring Security :
+## Spring Redis Cache :
 
 This will be used reduce the number of network roundtrips between the database and user requests.Improves the performance by get the data from cache instead of data base.
 
