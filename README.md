@@ -133,7 +133,18 @@ Fault injection
 
 ## 3) API gateway
 
+ Spring clous API gateway is the single point of entry in cloud environment.From API gateway other services will be communicated through the discovery service.  
+Here the API gateay is zuul which will be registered with the eureka discovery service and all the other services also  registered to the discovery service.  
 
+* User will give the request to API gateway. 
+* API gateway will identify the respective service from discovery client and invoke the respective service.  
+* Zuul proxy will take care of the client side load balancing using netflix ribbon.
+* Note : <b> HERE client will make use of API gateway IP address and ports to invoke the services instead of microservice ip&port </b> 
+* Zuul will have filters which will be used to capture and modify the request or response.
+
+When Zuul receives a request, it picks up one of the physical locations available and forwards requests to the actual service instance. The whole process of caching the location of the service instances and forwarding the request to the actual location is provided out of the box with no additional configurations needed.  
+Internally, Zuul uses Netflix Ribbon to look up for all instances of the service from the service discovery (Eureka Server).  
+ 
 
 ## Spring Security :  
 Spring will have   
