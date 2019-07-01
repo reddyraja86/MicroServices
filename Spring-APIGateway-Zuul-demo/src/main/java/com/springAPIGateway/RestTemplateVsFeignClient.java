@@ -19,6 +19,9 @@ public class RestTemplateVsFeignClient {
 	@Autowired
 	RestTemplate restTemplate;
 	
+	@Autowired
+	TestFeignClient testFeignClient;
+	
 	@GetMapping("/restTemplate")
 	public String clientSideLoadBalacing() {
 		HttpHeaders headers = new HttpHeaders();
@@ -28,4 +31,9 @@ public class RestTemplateVsFeignClient {
 		return response.getBody();
 	}
 
+	@GetMapping("/feignClient")
+	public String clientSideLoadBalacingFeign() {
+		System.out.println("---test");
+		return testFeignClient.clientSideLoadBalacing();
+	}
 }
