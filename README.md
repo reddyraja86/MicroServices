@@ -9,6 +9,8 @@ Design Patterns has to be implemented :
 4)Circuit breaker / fault tolerance using Hystrix   
 5)Distributed Caching / Session using Redis Cache  
 6)Event Driven Architecture using spring clod stream  
+7)Distributed Tracing   
+8)Monitoring micro services  	
 6)Logging  
 6)data sharing between micro services  
 	CQRS & SAGA design patterns
