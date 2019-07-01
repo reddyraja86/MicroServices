@@ -125,7 +125,8 @@ Fault injection
     
    In client server which is registering to this Eureka Server should have Eureks Discovery dependency  
    
-   In client properties file add the Eureka server specific details  
+   In client properties file add the Eureka server specific details   
+   
     spring.application.name=eureka-client  
     eureka.client.service-url.default-zone=http://localhost:8761/eureka/  
     eureka.instance.hostname=localhost  
@@ -230,9 +231,31 @@ To write a filter we need to do basically these steps:
 		eureka.instance.hostname=localhost
 		
 
+*  Create a client service to and register it with the Discovery server.Read the header set from the Zuul filter  
+		
+		package com.configuration;
+
+		import org.springframework.web.bind.annotation.GetMapping;
+		import org.springframework.web.bind.annotation.RequestHeader;
+		import org.springframework.web.bind.annotation.RequestMapping;
+		import org.springframework.web.bind.annotation.RestController;
+
+		@RestController
+		@RequestMapping("/zuul")
+		public class TestZuulReq {
 
 
+			@GetMapping("/zuulTest")
+			public String zuulTest(@RequestHeader String TestZuulHeader) {
+				return "Zuul Test "+TestZuulHeader;
+			}
 
+		}
+
+
+*  Invoke the client service from Zuul API gateway ,which will invoke the pre filter and set the header values.Using the API gateway to host and service name invoke client service.
+
+		http://localhost:8084/eureka-client/zuul/zuulTest
 
 
 ## Spring Security :  
