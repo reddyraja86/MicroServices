@@ -6,8 +6,10 @@ Design Patterns has to be implemented :
 3)API gateway   
 	3.1) Client Side LoadBalancing using Ribbon & API gateway   
 	3.2) RestTemplate vs Feign Client  
-4)Caching   
-5)Logging  
+4)Circuit breaker / fault tolerance using Hystrix   
+5)Distributed Caching / Session using Redis Cache  
+6)Event Driven Architecture using spring clod stream  
+6)Logging  
 6)data sharing between micro services  
 	CQRS & SAGA design patterns
 
@@ -449,6 +451,10 @@ To write a filter we need to do basically these steps:
 			}
 		}
 
+## 4)Circuit breaker / fault tolerance using Hystrix  :
+
+
+
 ## Spring Security :  
 Spring will have   
 Basic Security :  
@@ -476,7 +482,7 @@ In above we have integrated with the userRepository and get the userdetails.Once
 return the spring security User object which is an implementatiton of User Details Service.  
 
 
-## Spring Redis Cache :
+##  Distributed Caching using Spring Redis Cache :
 
 This will be used reduce the number of network roundtrips between the database and user requests.Improves the performance by get the data from cache instead of data base.
 
