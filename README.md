@@ -3,9 +3,9 @@ Microservices is an echo system where we need to follow certain priciples.
 Design Patterns has to be implemented :  
 1)Configuration  
 2)Discovery Services  
-3)API gateway  
-  3.1) Client Side LoadBalancing using Ribbon
-4)Caching  
+3)API gateway   
+	3.1) Client Side LoadBalancing using Ribbon & API gateway   
+4)Caching   
 5)Logging  
 6)data sharing between micro services  
 	CQRS & SAGA design patterns
