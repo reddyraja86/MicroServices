@@ -292,11 +292,12 @@ To write a filter we need to do basically these steps:
  * We can observe the service are load balanced as the port numnber will be different is returned.  
 		}
 
-### 3.2) RestTemplate vs Feign Client :
+### 3.2) RestTemplate vs Feign Client (using the ribbon) :
 
-*  Invoking the another service from API gateway to aggregate the response for exmaple we will call multiple services to return data or return xml response to some client and JSON to other.  
+####  RestTemplate : 
+*  Invoking the another service from API gateway to aggregate the response.For exmaple we will call multiple services to return data or return xml response to some client/JSON to other.  
 *  This will be useful when we dont want to hardcode the restservice url and port.We can make use service name to invoke the service.  
-*  We will use <b>@LoadBalanced</b> annotation for client side load balacing.  
+*  We will use <b>@LoadBalanced</b> annotation for client side load balacing using ribbon    
 
 		package com.springAPIGateway;
 
@@ -366,7 +367,87 @@ To write a filter we need to do basically these steps:
 
    *  Access this url it will load balance the client service  http://localhost:8084/access/restTemplate
 
+####  Feign Client : 
 
+*  This is from neflix api it is a simplified way calling the services.This will connect to discoverr service and take care of loadbalancing.  
+
+*  Need to add the FeignClient Dependency to spring boot application.  
+*  Enable the feign client annotation  @EnableFeignClients.  
+
+		package com.springAPIGateway;
+
+		import org.springframework.boot.SpringApplication;
+		import org.springframework.boot.autoconfigure.SpringBootApplication;
+		import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+		import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
+		import org.springframework.cloud.openfeign.EnableFeignClients;
+		import org.springframework.context.annotation.Bean;
+		import org.springframework.web.client.RestTemplate;
+
+		@SpringBootApplication
+		@EnableZuulProxy
+		@EnableFeignClients
+		public class SpringApiGatewayZuulDemoApplication {
+
+			public static void main(String[] args) {
+				SpringApplication.run(SpringApiGatewayZuulDemoApplication.class, args);
+			}
+
+			@Bean
+			public PreFilter preFilter() {
+				return new PreFilter();
+			}
+
+			@Bean
+			@LoadBalanced
+			public RestTemplate restTemplate() {
+				return new RestTemplate();
+			}
+
+		}
+
+*  Create @FeignClient interface which will have the name as the client service name .
+*  We will define the cleint methods in this interfacce.(Nothing but copy the method details from client service to here). 
+
+		package com.springAPIGateway;
+
+		import org.springframework.cloud.openfeign.FeignClient;
+		import org.springframework.web.bind.annotation.GetMapping;
+
+		@FeignClient(decode404=true,name="eureka-client")
+		public interface TestFeignClient {
+
+			@GetMapping("/client/loadBalance")
+			public String clientSideLoadBalacing();
+		}
+
+*  Invoke this method from rest controller.  
+
+		@RestController
+		@RequestMapping("/access")
+		public class RestTemplateVsFeignClient {
+
+			@Autowired
+			RestTemplate restTemplate;
+
+			@Autowired
+			TestFeignClient testFeignClient;
+
+			@GetMapping("/restTemplate")
+			public String clientSideLoadBalacing() {
+				HttpHeaders headers = new HttpHeaders();
+				ResponseEntity<String> response = this.restTemplate.exchange("http://eureka-client/client/loadBalance",
+						HttpMethod.GET, new HttpEntity<>(headers), String.class);
+
+				return response.getBody();
+			}
+
+			@GetMapping("/feignClient")
+			public String clientSideLoadBalacingFeign() {
+				System.out.println("---test");
+				return testFeignClient.clientSideLoadBalacing();
+			}
+		}
 
 ## Spring Security :  
 Spring will have   
