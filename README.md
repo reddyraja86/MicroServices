@@ -258,34 +258,7 @@ To write a filter we need to do basically these steps:
 
 		http://localhost:8084/eureka-client/zuul/zuulTest
 
-
-## Spring Security :  
-Spring will have   
-Basic Security :  
- 		Spring security module has the  org.springframework.security.core.userdetails.UserDetailsService interface which will allow to integrate  
-with the other services for user authentication.  
-
-@Service
-class UsersService  implements org.springframework.security.core.userdetails.UserDetailsService{
-
-	@Autowired
-	UserRepository userRepo;
-	
-	@Override
-	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-		
-		return userRepo.findByUserName(userName).
-				map(u -> new User(u.getUserName(), u.getPassWord(),u.isActive() , u.isActive(), u.isActive(), u.isActive(), 
-				AuthorityUtils.createAuthorityList("ADMIN","USER"))).
-				orElseThrow(()->new UsernameNotFoundException("UserName"+userName+"-- Not Found"));
-	}
-	
-}
-
-In above we have integrated with the userRepository and get the userdetails.Once we got the user details from repository we will
-return the spring security User object which is an implementatiton of User Details Service.  
-
-### 3.1) Client side LoadBalancing using Ribbon :  
+### 3.1) Client side LoadBalancing using Ribbon  & API gateway :  
 	
 *  Add the Netflix Ribbon Dependnecy to API gateway.   
 *  Configure two client services and they will be running on different ports like 8081,8082.    
@@ -319,8 +292,31 @@ return the spring security User object which is an implementatiton of User Detai
 		}
 
 
+## Spring Security :  
+Spring will have   
+Basic Security :  
+ 		Spring security module has the  org.springframework.security.core.userdetails.UserDetailsService interface which will allow to integrate  
+with the other services for user authentication.  
 
+@Service
+class UsersService  implements org.springframework.security.core.userdetails.UserDetailsService{
 
+	@Autowired
+	UserRepository userRepo;
+	
+	@Override
+	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+		
+		return userRepo.findByUserName(userName).
+				map(u -> new User(u.getUserName(), u.getPassWord(),u.isActive() , u.isActive(), u.isActive(), u.isActive(), 
+				AuthorityUtils.createAuthorityList("ADMIN","USER"))).
+				orElseThrow(()->new UsernameNotFoundException("UserName"+userName+"-- Not Found"));
+	}
+	
+}
+
+In above we have integrated with the userRepository and get the userdetails.Once we got the user details from repository we will
+return the spring security User object which is an implementatiton of User Details Service.  
 
 
 ## Spring Redis Cache :
