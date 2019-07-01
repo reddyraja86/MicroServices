@@ -457,34 +457,8 @@ To write a filter we need to do basically these steps:
 
 
 
-## Spring Security :  
-Spring will have   
-Basic Security :  
- 		Spring security module has the  org.springframework.security.core.userdetails.UserDetailsService interface which will allow to integrate  
-with the other services for user authentication.  
 
-@Service
-class UsersService  implements org.springframework.security.core.userdetails.UserDetailsService{
-
-	@Autowired
-	UserRepository userRepo;
-	
-	@Override
-	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-		
-		return userRepo.findByUserName(userName).
-				map(u -> new User(u.getUserName(), u.getPassWord(),u.isActive() , u.isActive(), u.isActive(), u.isActive(), 
-				AuthorityUtils.createAuthorityList("ADMIN","USER"))).
-				orElseThrow(()->new UsernameNotFoundException("UserName"+userName+"-- Not Found"));
-	}
-	
-}
-
-In above we have integrated with the userRepository and get the userdetails.Once we got the user details from repository we will
-return the spring security User object which is an implementatiton of User Details Service.  
-
-
-##  Distributed Caching using Spring Redis Cache :
+##  5)Distributed Caching using Spring Redis Cache :
 
 This will be used reduce the number of network roundtrips between the database and user requests.Improves the performance by get the data from cache instead of data base.
 
@@ -547,6 +521,43 @@ We are using redis in memory cache for this.
 *  Here persons cache will be created and person object is stored against the personId key. (once we put the data in cache it will        	always retrieve from cache instead of DB we can prove this as the databse query is not showed in console.
 *  The same way we need to do update the cache once that user object got updated and deleted.
 	<b>@CachePut & @CacheEvict </b> are used for this.
+
+####  Distributed session Management using redis:  
+
+*  Once the user is logged in we can save his data in cache and other services can use this session data for authentication or read user related session which will be useful to process user request.  
+*  Once the user is logged out we can remove that session data from cache so that for every request this session data will be checked.  
+
+##  7) Event Driven Architecture using spring cloud stream  :  
+
+
+
+
+## Spring Security :  
+Spring will have   
+Basic Security :  
+ 		Spring security module has the  org.springframework.security.core.userdetails.UserDetailsService interface which will allow to integrate  
+with the other services for user authentication.  
+
+@Service
+class UsersService  implements org.springframework.security.core.userdetails.UserDetailsService{
+
+	@Autowired
+	UserRepository userRepo;
+	
+	@Override
+	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+		
+		return userRepo.findByUserName(userName).
+				map(u -> new User(u.getUserName(), u.getPassWord(),u.isActive() , u.isActive(), u.isActive(), u.isActive(), 
+				AuthorityUtils.createAuthorityList("ADMIN","USER"))).
+				orElseThrow(()->new UsernameNotFoundException("UserName"+userName+"-- Not Found"));
+	}
+	
+}
+
+In above we have integrated with the userRepository and get the userdetails.Once we got the user details from repository we will
+return the spring security User object which is an implementatiton of User Details Service.  
+
 
 
 
