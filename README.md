@@ -138,13 +138,102 @@ Here the API gateay is zuul which will be registered with the eureka discovery s
 
 * User will give the request to API gateway. 
 * API gateway will identify the respective service from discovery client and invoke the respective service.  
-* Zuul proxy will take care of the client side load balancing using netflix ribbon.
-* Note : <b> HERE client will make use of API gateway IP address and ports to invoke the services instead of microservice ip&port </b> 
+* Zuul proxy will take care of the client side load balancing using netflix ribbon. 
 * Zuul will have filters which will be used to capture and modify the request or response.
+
+* Note : <b> HERE client will make use of API gateway IP address and ports to invoke the services instead of microservice ip&port </b>
 
 When Zuul receives a request, it picks up one of the physical locations available and forwards requests to the actual service instance. The whole process of caching the location of the service instances and forwarding the request to the actual location is provided out of the box with no additional configurations needed.  
 Internally, Zuul uses Netflix Ribbon to look up for all instances of the service from the service discovery (Eureka Server).  
- 
+
+<b>Zuul Filters:</b>  
+
+Zuul supports 4 types of filters namely pre,post,route and error. Here we will create each type of filters.
+
+To write a filter we need to do basically these steps:
+
+* Need to extend com.netflix.zuul.ZuulFilter  
+* Need to override filterType, filterOrder, shouldFilter and run methods. Here filterType method can only return any one of four String – pre/post/route/error. Depedending on this value the filter will act like a particular filter.  
+* run method is the place where our filter logic should be placed depending on our requirement.  
+* Also we can add any number of any particular filter based on our need, this case filterOrder will come into place to determine the order of that filer at the phase of execution of that type of filter.  
+
+* Configure zuul api gateway with @EnableZuulProxy annotation  
+
+		package com.springAPIGateway;
+
+		import org.springframework.boot.SpringApplication;
+		import org.springframework.boot.autoconfigure.SpringBootApplication;
+		import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
+		import org.springframework.context.annotation.Bean;
+
+		@SpringBootApplication
+		@EnableZuulProxy
+		public class SpringApiGatewayZuulDemoApplication {
+
+			public static void main(String[] args) {
+				SpringApplication.run(SpringApiGatewayZuulDemoApplication.class, args);
+			}
+
+			@Bean
+			public PreFilter preFilter() {
+				return new PreFilter();
+			}
+
+		}
+
+*  Enable pre filter and add one header which will be read by one of the client service.
+
+		package com.springAPIGateway;
+
+		import javax.servlet.http.HttpServletRequest;
+
+		import com.netflix.zuul.ZuulFilter;
+		import com.netflix.zuul.context.RequestContext;
+		import com.netflix.zuul.exception.ZuulException;
+
+		public class PreFilter extends ZuulFilter {
+
+			@Override
+			public boolean shouldFilter() {
+				// TODO Auto-generated method stub
+				return true;
+			}
+
+			@Override
+			public Object run() throws ZuulException {
+				RequestContext ctx = RequestContext.getCurrentContext();
+				HttpServletRequest httpReq = ctx.getRequest();
+				ctx.addZuulRequestHeader("TestZuulHeader", " --- This is Header Value I set in Zuul API Gateway");
+				System.out.println("--- We can manipulate the Request Here -------");
+				return null;
+			}
+
+			@Override
+			public String filterType() {
+				// TODO Auto-generated method stub
+				return "pre";
+			}
+
+			@Override
+			public int filterOrder() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+		}
+
+*  Regiater the API gateway with Discovery service
+
+		server.port=8084
+		spring.application.name=ZuulProxy
+		eureka.client.service-url.default-zone=http://localhost:8761/eureka/
+		eureka.instance.hostname=localhost
+		
+
+
+
+
+
 
 ## Spring Security :  
 Spring will have   
