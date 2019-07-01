@@ -5,6 +5,7 @@ Design Patterns has to be implemented :
 2)Discovery Services  
 3)API gateway   
 	3.1) Client Side LoadBalancing using Ribbon & API gateway   
+	3.2) RestTemplate vs Feign Client  
 4)Caching   
 5)Logging  
 6)data sharing between micro services  
@@ -290,6 +291,11 @@ To write a filter we need to do basically these steps:
 
  * We can observe the service are load balanced as the port numnber will be different is returned.  
 		}
+
+### 3.2) RestTemplate vs Feign Client :
+
+*  Invoking the another service from API gateway to aggregate the response for exmaple we will call multiple services to return data or return xml response to some client and JSON to other.  
+
 
 
 ## Spring Security :  
