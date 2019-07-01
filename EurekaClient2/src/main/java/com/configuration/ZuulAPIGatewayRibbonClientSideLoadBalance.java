@@ -2,20 +2,19 @@ package com.configuration;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/zuul")
-public class TestZuulReq {
+@RequestMapping("/client")
+public class ZuulAPIGatewayRibbonClientSideLoadBalance {
 
 	@Value("${server.port}")
 	private String port;
 	
-	@GetMapping("/zuulTest")
-	public String zuulTest(@RequestHeader String TestZuulHeader) {
-		return "Zuul Test "+TestZuulHeader+" running on port --" +port;
+	@GetMapping("/loadBalance")
+	public String clientSideLoadBalacing() {
+		return "client-Side LoadBalacing Testing using Nextflix Ribbon. This Service "
+			  +" running on port -- " +port;
 	}
-
 }
