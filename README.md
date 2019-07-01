@@ -4,6 +4,7 @@ Design Patterns has to be implemented :
 1)Configuration  
 2)Discovery Services  
 3)API gateway  
+  3.1) Client Side LoadBalancing using Ribbon
 4)Caching  
 5)Logging  
 6)data sharing between micro services  
@@ -283,6 +284,44 @@ class UsersService  implements org.springframework.security.core.userdetails.Use
 
 In above we have integrated with the userRepository and get the userdetails.Once we got the user details from repository we will
 return the spring security User object which is an implementatiton of User Details Service.  
+
+### 3.1) Client side LoadBalancing using Ribbon :  
+	
+*  Add the Netflix Ribbon Dependnecy to API gateway.   
+*  Configure two client services and they will be running on different ports like 8081,8082.    
+*  Crete a service which will return the port number of the client service.   
+
+		package com.configuration;
+
+		import org.springframework.beans.factory.annotation.Value;
+		import org.springframework.web.bind.annotation.GetMapping;
+		import org.springframework.web.bind.annotation.RequestMapping;
+		import org.springframework.web.bind.annotation.RestController;
+
+		@RestController
+		@RequestMapping("/client")
+		public class ZuulAPIGatewayRibbonClientSideLoadBalance {
+
+			@Value("${server.port}")
+			private String port;
+
+			@GetMapping("/loadBalance")
+			public String clientSideLoadBalacing() {
+				return "client-Side LoadBalacing Testing using Nextflix Ribbon. This Service "
+					  +" running on port -- " +port;
+			}
+			
+ *  Now start two instance of client service and access the client service.  
+ 
+ 		http://localhost:8084/eureka-client/client/loadBalance
+
+ * We can observe the service are load balanced as the port numnber will be different is returned.  
+		}
+
+
+
+
+
 
 ## Spring Redis Cache :
 
