@@ -5,6 +5,7 @@ Design Patterns has to be implemented :
 2)Discovery Services  
 3)API gateway   
 	3.1) Client Side LoadBalancing using Ribbon & API gateway   
+	3.2) RestTemplate vs Feign Client  
 4)Caching   
 5)Logging  
 6)data sharing between micro services  
@@ -290,6 +291,81 @@ To write a filter we need to do basically these steps:
 
  * We can observe the service are load balanced as the port numnber will be different is returned.  
 		}
+
+### 3.2) RestTemplate vs Feign Client :
+
+*  Invoking the another service from API gateway to aggregate the response for exmaple we will call multiple services to return data or return xml response to some client and JSON to other.  
+*  This will be useful when we dont want to hardcode the restservice url and port.We can make use service name to invoke the service.  
+*  We will use <b>@LoadBalanced</b> annotation for client side load balacing.  
+
+		package com.springAPIGateway;
+
+		import org.springframework.boot.SpringApplication;
+		import org.springframework.boot.autoconfigure.SpringBootApplication;
+		import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+		import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
+		import org.springframework.context.annotation.Bean;
+		import org.springframework.web.client.RestTemplate;
+
+		@SpringBootApplication
+		@EnableZuulProxy
+		public class SpringApiGatewayZuulDemoApplication {
+
+			public static void main(String[] args) {
+				SpringApplication.run(SpringApiGatewayZuulDemoApplication.class, args);
+			}
+
+			@Bean
+			public PreFilter preFilter() {
+				return new PreFilter();
+			}
+
+			@Bean
+			@LoadBalanced
+			public RestTemplate restTemplate() {
+				return new RestTemplate();
+			}
+
+		}
+		
+*  We are calling the  another service from api gateway with service name.  
+
+		package com.springAPIGateway;
+
+		import org.springframework.beans.factory.annotation.Autowired;
+		import org.springframework.http.HttpEntity;
+		import org.springframework.http.HttpHeaders;
+		import org.springframework.http.HttpMethod;
+		import org.springframework.http.ResponseEntity;
+		import org.springframework.web.bind.annotation.GetMapping;
+		import org.springframework.web.bind.annotation.RequestMapping;
+		import org.springframework.web.bind.annotation.RestController;
+		import org.springframework.web.client.RestTemplate;
+
+
+
+		@RestController
+		@RequestMapping("/access")
+		public class RestTemplateVsFeignClient {
+
+			@Autowired
+			RestTemplate restTemplate;
+
+			@GetMapping("/restTemplate")
+			public String clientSideLoadBalacing() {
+				HttpHeaders headers = new HttpHeaders();
+				ResponseEntity<String> response = this.restTemplate.exchange("http://eureka-client/client/loadBalance",
+						HttpMethod.GET, new HttpEntity<>(headers), String.class);
+
+				return response.getBody();
+			}
+
+		}
+		
+  <b> Note:  Here the eureka-client is the service name which is running on different ports </b>  
+
+   *  Access this url it will load balance the client service  http://localhost:8084/access/restTemplate
+
 
 
 ## Spring Security :  
