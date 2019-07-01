@@ -364,7 +364,7 @@ To write a filter we need to do basically these steps:
 		
   <b> Note:  Here the eureka-client is the service name which is running on different ports </b>  
 
-
+   *  Access this url it will load balance the client service  http://localhost:8084/access/restTemplate
 
 
 
