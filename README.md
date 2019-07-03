@@ -27,7 +27,8 @@ Fault injection
 ##### Need to identify the service mesh and side car design patterns.  
 ##### Need to complete the Caching with Redis 
 ##### Need to complete Oauth2  
-##### Need to implement config server & discovery with consul
+##### Need to implement config server & discovery with consul  
+##### Need to implemet exception handling    
 
 ## 1) Configuration Management  
 
@@ -468,12 +469,23 @@ To write a filter we need to do basically these steps:
 * For certain duration all the attempts to invoke this service will fail immedidately.  
 * After the timeout expires the circuit breaker allows a limited number of test requests to pass through. If those requests succeed the circuit breaker resumes normal operation. Otherwise, if there is a failure the timeout period begins again.   
 
-#### Different States of the Circuit Breaker
+#### Different States of the Circuit Breaker :   
 The circuit breaker has three distinct states: Closed, Open, and Half-Open:
 
 * <b>Closed –</b> When everything is normal, the circuit breaker remains in the closed state and all calls pass through to the services. When the number of failures exceeds a predetermined threshold the breaker trips, and it goes into the Open state. 
 * <b>Open –</b> The circuit breaker returns an error for calls without executing the function. 
 * <b>Half-Open –</b> After a timeout period, the circuit switches to a half-open state to test if the underlying problem still exists. If a single call fails in this half-open state, the breaker is once again tripped. If it succeeds, the circuit breaker resets back to the normal, closed state.  
+
+#### Bulkhead pattern :  
+* In general, the goal of the bulkhead pattern is to avoid faults in one part of a system to take the entire system down.  
+* When user give a request thread pool will assign one thread and service the response to the user with respective micro service.  
+* Users can give request to different services and for evey user a thread is assigned from the pool.  
+* In above scenario if one of the service fails to serve the response or will be slow to give the response then the assigned thread cannot be released to thread pool or become free to serve other users.  
+* In this case we will devide the thread pool with number of services and will set threshhold to the service.ex: At time max 3 threads can serve in case of thread pool with 9 threads and 3 services in system.  
+
+
+
+
 
 
 
