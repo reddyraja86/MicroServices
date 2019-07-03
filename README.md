@@ -453,7 +453,31 @@ To write a filter we need to do basically these steps:
 			}
 		}
 
-## 4)Circuit breaker / fault tolerance using Hystrix  :
+## 4)Circuit breaker / fault tolerance using Hystrix or resilience4j :
+
+*  When ever SERVICE 1 is invoking SERVICE 2.  
+
+	SERVICE 1	------->	SERVICE 2  
+	
+* Once the user gives a request from thread a pool a thread will be assigned to the user to process the request.  
+* once the SERVICE 2 is not up and running then there will be a delay in response.  
+* All the subsequent which will go to SERVICE 2 may fail which will consume number of resource like threads in thred pool that are waiting for response. Precious resources such as threads might be consumed in the caller while waiting for the other service to respond.     
+* To solve this we have circuit breaker pattern where you will have a circuit at SERVICE 1  and the request will go through this circuit before reaching SERVICE 2.  
+#### Circuit breaker pattern :  
+* When number of consecutive failures crosees certain threshhold the circuit breaker breaks and give the default response configure.  
+* For certain duration all the attempts to invoke this service will fail immedidately.  
+* After the timeout expires the circuit breaker allows a limited number of test requests to pass through. If those requests succeed the circuit breaker resumes normal operation. Otherwise, if there is a failure the timeout period begins again.   
+
+#### Different States of the Circuit Breaker
+The circuit breaker has three distinct states: Closed, Open, and Half-Open:
+
+* <b>Closed –</b> When everything is normal, the circuit breaker remains in the closed state and all calls pass through to the services. When the number of failures exceeds a predetermined threshold the breaker trips, and it goes into the Open state. 
+* <b>Open –</b> The circuit breaker returns an error for calls without executing the function. 
+* <b>Half-Open –</b> After a timeout period, the circuit switches to a half-open state to test if the underlying problem still exists. If a single call fails in this half-open state, the breaker is once again tripped. If it succeeds, the circuit breaker resets back to the normal, closed state.  
+
+
+
+
 
 
 
