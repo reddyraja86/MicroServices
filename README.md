@@ -571,25 +571,24 @@ We are using redis in memory cache for this.
 ## Spring Security :  
 Spring will have   
 Basic Security :  
- 		Spring security module has the  org.springframework.security.core.userdetails.UserDetailsService interface which will allow to integrate  
-with the other services for user authentication.  
+ 		Spring security module has the  org.springframework.security.core.userdetails.UserDetailsService interface which will allow to integrate  with the other services for user authentication.  
 
-@Service
-class UsersService  implements org.springframework.security.core.userdetails.UserDetailsService{
+		@Service
+		class UsersService  implements org.springframework.security.core.userdetails.UserDetailsService{
 
-	@Autowired
-	UserRepository userRepo;
-	
-	@Override
-	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-		
-		return userRepo.findByUserName(userName).
-				map(u -> new User(u.getUserName(), u.getPassWord(),u.isActive() , u.isActive(), u.isActive(), u.isActive(), 
-				AuthorityUtils.createAuthorityList("ADMIN","USER"))).
-				orElseThrow(()->new UsernameNotFoundException("UserName"+userName+"-- Not Found"));
-	}
-	
-}
+			@Autowired
+			UserRepository userRepo;
+
+			@Override
+			public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+
+				return userRepo.findByUserName(userName).
+						map(u -> new User(u.getUserName(), u.getPassWord(),u.isActive() , u.isActive(), 	u.isActive(), u.isActive(), 
+						AuthorityUtils.createAuthorityList("ADMIN","USER"))).
+						orElseThrow(()->new UsernameNotFoundException("UserName"+userName+"-- Not Found"));
+			}
+
+		}
 
 In above we have integrated with the userRepository and get the userdetails.Once we got the user details from repository we will
 return the spring security User object which is an implementatiton of User Details Service.  
