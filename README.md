@@ -29,6 +29,9 @@ Fault injection
 ##### Need to complete Oauth2  
 ##### Need to implement config server & discovery with consul  
 ##### Need to implemet exception handling    
+##### non-blocking and asynchronous api gateways
+
+
 
 ## 1) Configuration Management  
 
