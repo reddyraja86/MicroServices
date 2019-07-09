@@ -625,8 +625,40 @@ We are using redis in memory cache for this.
 		spring.cloud.stream.bindings.employeeRegistrationChannel.destination=employeeRegistrations
 		spring.cloud.stream.default.contentType=application/json
 
+##### Spring Cloud Concepts for publishing a Message -
+
+* Sink - In Spring Cloud Stream, sink is used to consume message from queue. @StreamListener(target = Sink.INPUT) public void processRegisterEmployees(String employee){ System.out.println("Employees Registered --"+ employee); }  
+
+* In application.properties file updated the queue on which we will listen  
+
+		server.port=8090
+		spring.rabbitmq.host=localhost
+		spring.rabbitmq.port=5672
+		spring.rabbitmq.username=guest
+		spring.rabbitmq.password=guest
+
+		spring.cloud.stream.bindings.input.destination=employeeRegistrations
+		spring.cloud.stream.bindings.input.group=employeeRegistrationQueue
+
+* Enable the SinkListner and Stream Listener with the respective queue.  
+
+		@SpringBootApplication
+		@EnableBinding(Sink.class)
+		public class SpringStreamConsumerDemoApplication {
+
+			public static void main(String[] args) {
+				SpringApplication.run(SpringStreamConsumerDemoApplication.class, args);
+			}
+
+			@StreamListener(target = Sink.INPUT)
+			public void processRegisterEmployees(String employee) {
+				System.out.println("Employees Registered by Client " + employee);
+			}
+		}
+
 
 ## Spring Security :  
+
 Spring will have   
 Basic Security :  
  		Spring security module has the  org.springframework.security.core.userdetails.UserDetailsService interface which will allow to integrate  with the other services for user authentication.  
