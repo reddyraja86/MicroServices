@@ -572,6 +572,47 @@ We are using redis in memory cache for this.
 
 ##  7) Event Driven Architecture using spring cloud stream  :  
 
+*  Communication between two different micro services can be done in two ways
+	*  Synchronous Communication  
+	*  Asyncronous Communication  
+	
+####  Synchronous Communication :     
+
+*  Here once service will invoke another service and will wait for the response.Once the response is recieved service will proceed with its functionality. 
+*  We will make use of Feign Client or Spring Rest Template for the communcation.  
+
+####  Asynchronous Communication :  
+
+*  Here we will make use RabbitMQ or any other queue for the communication.  
+*  Spring will provide a Clous Stream which will be used for the commucation with any message.  
+
+####  Mesaage Queue Communication with Spring Cloud Stream :  
+
+*  We need to follow the below steps for communicatin with the MQ   
+	*  Creating a source which will Communicate with the output channel whcih will be responsible for sending the data to MQ.  
+
+####### Spring Cloud Concepts-
+* Binder - Depending upon the messaging system we will have to specify a the messaging platform dependency, which in this case is RabbitMQ  
+<dependency> <groupId>org.springframework.cloud</groupId> <artifactId>spring-cloud-starter-stream-rabbit</artifactId> </dependency>
+* Source - When a message is needed to be published it is done using Source. The Source is an interface having a method annotated with @Output. The @Output annotation is used to identify output channels. The Source takes a POJO object, serializes it and then publishes it to the output channel.  
+
+
+			public interface EmployeeRegistrationSource {
+
+			    @Output("employeeRegistrationChannel")
+			    MessageChannel employeeRegistration();
+
+			}
+
+* Channel - A channel represents an input and output pipe between the Spring Cloud Stream Application and the Middleware Platform. A channel abstracts the queue that will either publish or consume the message. A channel is always associated with a queue.  
+
+*  Enable the source by
+
+		@EnableBinding(EmployeeRegistrationSource.class)
+		
+* Publish the data using the source and output channel
+
+		employeeRegistrationSource.employeeRegistration().send(MessageBuilder.withPayload(employee).build());
 
 
 
