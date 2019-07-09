@@ -591,7 +591,7 @@ We are using redis in memory cache for this.
 *  We need to follow the below steps for communicatin with the MQ   
 	*  Creating a source which will Communicate with the output channel whcih will be responsible for sending the data to MQ.  
 
-####### Spring Cloud Concepts-
+##### Spring Cloud Concepts for publishing a Message -
 * Binder - Depending upon the messaging system we will have to specify a the messaging platform dependency, which in this case is RabbitMQ  
 <dependency> <groupId>org.springframework.cloud</groupId> <artifactId>spring-cloud-starter-stream-rabbit</artifactId> </dependency>
 * Source - When a message is needed to be published it is done using Source. The Source is an interface having a method annotated with @Output. The @Output annotation is used to identify output channels. The Source takes a POJO object, serializes it and then publishes it to the output channel.  
@@ -614,6 +614,16 @@ We are using redis in memory cache for this.
 
 		employeeRegistrationSource.employeeRegistration().send(MessageBuilder.withPayload(employee).build());
 
+* Configure the Rabbit Mq detail in Application.properties for publishing a message 		
+
+		server.port=8080
+		spring.rabbitmq.host=localhost
+		spring.rabbitmq.port=5672
+		spring.rabbitmq.username=guest
+		spring.rabbitmq.password=guest
+
+		spring.cloud.stream.bindings.employeeRegistrationChannel.destination=employeeRegistrations
+		spring.cloud.stream.default.contentType=application/json
 
 
 ## Spring Security :  
