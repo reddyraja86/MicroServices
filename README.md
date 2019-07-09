@@ -625,7 +625,7 @@ We are using redis in memory cache for this.
 		spring.cloud.stream.bindings.employeeRegistrationChannel.destination=employeeRegistrations
 		spring.cloud.stream.default.contentType=application/json
 
-##### Spring Cloud Concepts for publishing a Message -
+##### Spring Cloud Concepts for consuming a Message -
 
 * Sink - In Spring Cloud Stream, sink is used to consume message from queue. @StreamListener(target = Sink.INPUT) public void processRegisterEmployees(String employee){ System.out.println("Employees Registered --"+ employee); }  
 
