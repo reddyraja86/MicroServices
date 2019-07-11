@@ -657,6 +657,16 @@ We are using redis in memory cache for this.
 		}
 
 
+
+##  8) Distributed tracing using the sleuth  : 
+
+*  In micro services environment tracing the user request when it is flowing through different services is difficult.So we will make use of slueth will generate unique ids for tracking.  
+
+*  Spring Cloud Sleuth adds two types of IDs to your logging, one called a trace ID and the other called a span ID. The span ID represents a basic unit of work, for example sending an HTTP request. The trace ID contains a set of span IDs, forming a tree-like structure. The trace ID will remain the same as one microservice calls the next.  
+
+
+
+
 ## Spring Security :  
 
 Spring will have   
