@@ -33,6 +33,8 @@ Fault injection
 - [ ]  Need to implemet exception handling    
 - [ ]  Non-blocking and asynchronous api gateways
 - [ ]  Monitoring MicroService  
+- [ ]  Spring cloud bus
+
 
 
 
@@ -686,6 +688,9 @@ We are using redis in memory cache for this.
 
 *  Go to openaipkin and run docker image or identify other options to run zipkin server.  
 *  By default zipkin will run on 9411 port and this will disaply the trace and span information.  
+
+
+##  8)Monitoring micro services : 
 
 
 
