@@ -662,8 +662,30 @@ We are using redis in memory cache for this.
 
 *  In micro services environment tracing the user request when it is flowing through different services is difficult.So we will make use of slueth will generate unique ids for tracking.  
 
-*  Spring Cloud Sleuth adds two types of IDs to your logging, one called a trace ID and the other called a span ID. The span ID represents a basic unit of work, for example sending an HTTP request. The trace ID contains a set of span IDs, forming a tree-like structure. The trace ID will remain the same as one microservice calls the next.  
+*  Slueth will generate Trace Id once the request enters and for  every hop bretween the services it will generate span ID,by this way we can identify how much time evry span took for request completion.  
 
+*  Spring Cloud Sleuth adds two types of IDs to your logging, one called a trace ID and the other called a span ID. The span ID represents a basic unit of work, for example sending an HTTP request. The trace ID contains a set of span IDs, forming a tree-like structure. The trace ID will remain the same as one microservice calls the next. 
+
+*  Adding sleuth dependency to the services 
+
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-starter-sleuth</artifactId>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-sleuth-zipkin</artifactId>
+			</dependency>
+
+
+*  This will be generating unique trace and span ids.  
+*  Zipkin server is used to display this information in proper format.  
+
+#### Configure zipkin server :
+
+*  Go to openaipkin and run docker image or identify other options to run zipkin server.  
+*  By default zipkin will run on 9411 port and this will disaply the trace and span information.  
 
 
 
