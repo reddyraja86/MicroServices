@@ -688,7 +688,7 @@ We are using redis in memory cache for this.
 *  By default zipkin will run on 9411 port and this will disaply the trace and span information.  
 
 
-##  8)Monitoring micro services : 
+##  9)Monitoring micro services : 
 
 * Micrometer is something which will provide interface to integrate actuator metrics to external monitoring system.It supports different monitoring systems like prometheus,Netflix atlas.  
 * By integrating mictometer prometheus it will give a new endpoint to actuator which will give additional metrics. 
