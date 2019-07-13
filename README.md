@@ -10,7 +10,10 @@ Design Patterns has to be implemented :
 5)Distributed Caching / Session using Redis Cache  
 6)Event Driven Architecture using spring clod stream  
 7)Distributed Tracing   
-8)Monitoring micro services  	
+8)Monitoring micro services    
+9)Log Aggregator  
+10)Spring Visualizagtion using Dashboard  
+11)Testing Microservices  
 
 Load balancing  
 Service discovery  
