@@ -1,5 +1,8 @@
 package com.springAPIGateway;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -15,6 +18,9 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 @RequestMapping("/access")
 public class RestTemplateVsFeignClient {
+	
+
+	private static final Logger LOG = Logger.getLogger(RestTemplateVsFeignClient.class.getName());
 
 	@Autowired
 	RestTemplate restTemplate;
@@ -33,6 +39,7 @@ public class RestTemplateVsFeignClient {
 
 	@GetMapping("/feignClient")
 	public String clientSideLoadBalacingFeign() {
+		LOG.log(Level.INFO, "ZUUL PROXY"); 
 		System.out.println("---test");
 		return testFeignClient.clientSideLoadBalacing();
 	}
