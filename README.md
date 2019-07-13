@@ -11,9 +11,6 @@ Design Patterns has to be implemented :
 6)Event Driven Architecture using spring clod stream  
 7)Distributed Tracing   
 8)Monitoring micro services  	
-6)Logging  
-6)data sharing between micro services  
-	CQRS & SAGA design patterns
 
 Load balancing  
 Service discovery  
@@ -33,7 +30,8 @@ Fault injection
 - [ ]  Need to implemet exception handling    
 - [ ]  Non-blocking and asynchronous api gateways
 - [ ]  Monitoring MicroService  
-- [ ]  Spring cloud bus
+- [ ]  Spring cloud bus   
+- [ ]  data sharing between micro services  (CQRS & SAGA design patterns)   
 
 
 
@@ -692,7 +690,51 @@ We are using redis in memory cache for this.
 
 ##  8)Monitoring micro services : 
 
+* Micrometer is something which will provide interface to integrate actuator metrics to external monitoring system.It supports different monitoring systems like prometheus,Netflix atlas.  
+* By integrating mictometer prometheus it will give a new endpoint to actuator which will give additional metrics. 
 
+#### Integrating prometheus  : 
+*   Adding the maven dependency 
+
+
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+		</dependency
+		
+*   Addd the following properties in application.prop  
+
+		management.endpoints.web.exposure.include=*
+		management.endpoint.health.show-details=always
+		
+*  Accessing http://localhost:8084/actuator will give additional end point for prometheus.  
+		
+		http://localhost:8084/actuator/prometheus  
+		
+*  Add the prometheus.yml file contains config 
+
+*  Run the docker image and point the above yml file 
+
+		docker container  run -d --name=prometheus -p 9090:9090 -v C:\Users\rrayappa\git\MicroServices\Spring-APIGateway-Zuul-demo\prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus --config.file=/etc/prometheus/prometheus.yml
+		
+*  we can see the prometheus with different metrics
+
+		http://localhost:9090  
+
+####  Graphana configuration : 
+
+Graphana is a monitoring system which can get the data from various resources like prometheus.
+we can configure rules to sent emails when something gows down etc.
+
+*  Graphana will get the details from prometheus and show it in a better format.It will have rules by which we can sent emails.  
+
+*  Graphana can feed the data from different sources .  
+
+*  start graphana from docker  
+
+		docker run -d --name=grafana -p 3000:3000 grafana/grafana  
+		
+*  Congure the data source and craete required  graph.
 
 ## Spring Security :  
 
