@@ -25,16 +25,18 @@ Security
 Metrics and telemetry  
 Fault injection   
 
-##  Pending Tasks   
+##  Pending Tasks  
+- [ ]  Need to implemet exception handling    
+- [ ]  Transactions in MicroServices
+- [ ]  data sharing between micro services  (CQRS & SAGA design patterns)  
 - [ ]  Need to identify the service mesh and side car design patterns.  
-- [ ]  Need to complete the Caching with Redis 
+- [x]  Need to complete the Caching with Redis 
 - [ ]  Need to complete Oauth2  
 - [ ]  Need to implement config server & discovery with consul  
-- [ ]  Need to implemet exception handling    
 - [ ]  Non-blocking and asynchronous api gateways
-- [ ]  Monitoring MicroService  
+- [x] Monitoring MicroService  
 - [ ]  Spring cloud bus   
-- [ ]  data sharing between micro services  (CQRS & SAGA design patterns)   
+ 
 
 
 
