@@ -26,17 +26,42 @@ Metrics and telemetry
 Fault injection   
 
 ##  Pending Tasks  
-- [ ]  Need to implemet exception handling    
 - [ ]  Transactions in MicroServices
 - [ ]  data sharing between micro services  (CQRS & SAGA design patterns)  
 - [ ]  Need to identify the service mesh and side car design patterns.  
-- [x]  Need to complete the Caching with Redis 
 - [ ]  Need to complete Oauth2  
 - [ ]  Need to implement config server & discovery with consul  
-- [ ]  Non-blocking and asynchronous api gateways
-- [x] Monitoring MicroService  
+- [ ]  Non-blocking and asynchronous api gateways  
 - [ ]  Spring cloud bus   
  
+## Domain Driven Design  
+
+ This will allow us to use the doamina expert language with the developers implementation.
+ Here we will design large application into multiple bounded contexts.
+ With Bounded context we can define the entities and the realtions between them.
+
+## Bounded Context :  
+ 
+ This is the boundary of fucntionality and names used in that bounded context.
+ Following are two different bounded contexts and the entities are same with different names.
+ 
+ For Ex:
+  
+  Hr Department									Engg Department
+  Resource									Engineer
+ 
+ With the help of DDD we can identify
+*  Whate are the Entities  
+*  Relation between the entities  
+*  Events needed for communication between the entities.  
+ 
+ 
+ Communication and transactions between MS:
+
+  Ms will use events which will make sure the transaction is successful or else it will do '
+ a retry mechanism or another event to revert the transactions.
+ We will use BASE instead of ACID,we use eventual consistency.
+  
 
 
 
