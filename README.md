@@ -754,11 +754,10 @@ return the spring security User object which is an implementatiton of User Detai
 # Microservices Design Patterns  
 
 1.CQRS  
-2.Event Sourcing
-3.SAGA 
-4.Circuit Breaker 
-5.BulkHead 
-
+2.Event Sourcing  
+3.SAGA  
+4.Circuit Breaker  
+5.BulkHead   
 
 
 ## Domain Driven Design  
@@ -886,10 +885,10 @@ We have user creation request
 						Failure  ---->   In case of any failure a seperate event will be generated to rollback the data.
 						
 
-* Eventual Consistency :
+*  Eventual Consistency :
 	In above the read databases will be not consistent for some time after that they will be eventually consistent.
 
-* Strong Consistency :
+*  Strong Consistency :
 	
 	In case master slave mechanism we can configure untill all the read databases are updated with the latest changes we will not return read data to the end user.THis will reduce the performance of the application.
 
