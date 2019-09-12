@@ -57,7 +57,8 @@ Fault injection
  
 ## Data Consistency :  
 
- In case of RDBMS we have optimistic locking and pessimistic locking will be used to maintain the data consistency.
+
+In case of RDBMS we have optimistic locking and pessimistic locking will be used to maintain the data consistency.
 
 We need to have a consistent and highly available system.
 
@@ -80,7 +81,7 @@ Distributed Transactions :
   In case of distributed transactions how to improve the availability and consistency 
 
  1) Master slave concept :
-  we can have multiple databases aligned one for write and remianing for the read operation.
+  we can have multiple databases aligned one for write and remaining for the read operation.
   This will improve the availability but we will miss the consistency.
  2) Sharding :
 	Here we will create multiple db instances and each instance will have specific rule and data which follow this rules will be saved in specific instance.
@@ -92,6 +93,16 @@ CAP Theorem : (Consistency availability Partition)
 	As per the CAP theorem we can have only two combinations in any distributed database system.
 
 
+We need a high available and distributed transaction supported system.
+
+
+CQRS: 
+ In case of CQRS we will have Read and write databases are separated.
+ Why :
+	we can maintain indexes for the read database this will improve the read performance as the data will be arranged in balanced binary tree.Not required indexes in write database will will improve the performance of save operation.
+	There is possibility that consistency will be lost.
+	
+	
 
 Maintain the transaction across different DBs(Micro services or distributed systems) can be done in different ways :
 1) two phase commit
@@ -120,21 +131,45 @@ In two phase commit we will have coordinator who will coordinate the transaction
 					<----------------------------------------
 	
 
-This is a slow process.	
+This is a slow process as there is a coordinator and multiple calls
+
 code https://www.hhutzler.de/blog/a-deeper-dive-into-jpa-2-phase-commit-2pc-and-rac/
 
+Event Sourcing :
+	Instead of saving the object state we will maintain the sequence of events and based on these event we will identify the object state.
+We will have the list of events in a queue and respective services will fetch and do the operations based on event type.
 
-We need a high available and distributed transaction supported system.
+Why :
+ In case of distributed transactions we have to problems like availability but in case of event sourcing we will continue to send the event types and respective operations will be performed based on event types.
+ This will not stop the users from doing their work like creating.Ex :coffee  service creation will never be stopped.
+ Not required transaction manager or auditing system to maintain history ..as the events will take care of this.
+ 
 
-CQRS: 
- In case of CQRS we will have Read and write databases are separated.
- Why :
-	we can maintain indexes for the read database this will improve the read performance as the data will be arranged in balanced binary tree.Not required indexes in write database will will improve the performance of save operation.
-	There is possibility that consistency will be lost.
- 
- 
- 
- 
+CQRS and event source will work together :
+In case of CQRS in order to sync the read database with write database we will generate one event and one of the microservice will be triggered by
+this event type and all the operations will be performed based on these events.
+
+For example :
+
+We have user creation request
+
+	CreatSUer service 	-----> 	USER_CREATED_EVENT + payload	----->	event spurce will hadle this event type
+						
+						succsess ---->  User will be created in WRITE & ALL the Read databases
+						Failure  ---->   In case of any failure a seperate event will be generated to rollback the data.
+						
+
+Eventual Consistency :
+	In above the read databases will be not consistent for some time after that they will be eventually consistent.
+
+Strong Consistency :
+	
+	In case master slave mechanism we can configure untill all the read databases are updated with the latest changes we will not return read data to the end user.THis will reduce the performance of the application.
+
+
+
+
+
  Communication and transactions between MS:
 
   Ms will use events which will make sure the transaction is successful or else it will do '
