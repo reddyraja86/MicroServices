@@ -24,154 +24,6 @@ Design Patterns has to be implemented :
 - [ ]  Non-blocking and asynchronous api gateways  
 - [ ]  Spring cloud bus   
  
-## Domain Driven Design  
-
- We can solve the problems by connecting the software with the domainba expert language as they have solution for problems realted to  domain.DDD will allow us to use the doamina expert language with the developers implementation.
- Here we will design large application into multiple bounded contexts.
- With Bounded context we can define the entities and the realtions between them.
-
-## Bounded Context :  
- 
- This is the boundary of fucntionality and names used in that bounded context.
- Following are two different bounded contexts and the entities are same with different names.
- 
- For Ex:
-  
-  Hr Department									Engg Department
-  Resource									Engineer
- 
- With the help of DDD we can identify
-*  Whate are the Entities  
-*  Relation between the entities  
-*  Events needed for communication between the entities.  
- 
-## Data Consistency :  
-
-
-In case of RDBMS we have optimistic locking and pessimistic locking will be used to maintain the data consistency.
-
-We need to have a consistent and highly available system.
-
-For high availability we have can use optimistic locking but the draw back is only one user data will be updated in DB and remaining users data cannot be saved.
-
-### Optimstic Locking :
-In optimisitc locking we will allow multiple users to update and before updating the record in DB we will check whether the user record version and 
-database version are same or not.
-For this we will maintain unique value like version or timestamp.This value will be compared before updating the record.
-This is useful when we have limited number of users so that their data wont be lost.
-for Ex: updating the wiki page only few users will update and when saved who ever first saved that data will be updated in DB.
-
-### Pessimistic Locking :
-
- We will maintain locking on a record so that other users cannot update the same record. This will maintain consistency but reduces availability.
- 
- 
-### Distributed Transactions :
-
-  In case of distributed transactions how to improve the availability and consistency 
-
- 1) Master slave concept :
-  we can have multiple databases aligned one for write and remaining for the read operation.
-  This will improve the availability but we will miss the consistency.
- 2) Sharding :
-	Here we will create multiple db instances and each instance will have specific rule and data which follow this rules will be saved in specific instance.
-	for Ex: user names starting A- L  will be saved in instance-1 and L-z in instance-2.
-	Here there might be more using starting with A-L this will improves traffic at instance-1.
-	
-### CAP Theorem : (Consistency availability Partition)
-
-As per the CAP theorem we can have only two combinations in any distributed database system.
-
-
-We need a high available and distributed transaction supported system.
-
-
-### CQRS: 
- In case of CQRS we will have Read and write databases are separated.
- Why :
-	we can maintain indexes for the read database this will improve the read performance as the data will be arranged in balanced binary tree.Not required indexes in write database will will improve the performance of save operation.
-	There is possibility that consistency will be lost.
-	
-	
-
-### Maintain the transaction across different DBs(Micro services or distributed systems) can be done in different ways :
-1) two phase commit
-2) Event sourcing
-
-* two phase commit  : 
-In two phase commit we will have coordinator who will coordinate the transactions
- we have prepare phase( prepate the data and gets the confirmations) and commit phase( commit the data and get the confirmations).
-
- 
-	
-	coordinator						Service-1			Service-2
-	
-	
-					----------------->	
-	prepare
-					------------------------------------->
-	
-					<----------------
-					<----------------------------------------
-	
-					---------------->	
-	Commit
-					------------------------------------->
-	
-					<----------------
-					<----------------------------------------
-	
-
-This is a slow process as there is a coordinator and multiple calls
-
-code https://www.hhutzler.de/blog/a-deeper-dive-into-jpa-2-phase-commit-2pc-and-rac/
-
-* Event Sourcing :
-	Instead of saving the object state we will maintain the sequence of events and based on these event we will identify the object state.
-We will have the list of events in a queue and respective services will fetch and do the operations based on event type.
-
-Why :
- In case of distributed transactions we have to problems like availability but in case of event sourcing we will continue to send the event types and respective operations will be performed based on event types.
- This will not stop the users from doing their work like creating.Ex :coffee  service creation will never be stopped.
- Not required transaction manager or auditing system to maintain history ..as the events will take care of this.
- 
-
-## CQRS and event source will work together :
-In case of CQRS in order to sync the read database with write database we will generate one event and one of the microservice will be triggered by
-this event type and all the operations will be performed based on these events.
-
-For example :
-
-We have user creation request
-
-	CreatSUer service 	-----> 	USER_CREATED_EVENT + payload	----->	event spurce will hadle this event type
-						
-						succsess ---->  User will be created in WRITE & ALL the Read databases
-						Failure  ---->   In case of any failure a seperate event will be generated to rollback the data.
-						
-
-* Eventual Consistency :
-	In above the read databases will be not consistent for some time after that they will be eventually consistent.
-
-* Strong Consistency :
-	
-	In case master slave mechanism we can configure untill all the read databases are updated with the latest changes we will not return read data to the end user.THis will reduce the performance of the application.
-
-
-
-
-
-##  Communication and transactions between MS:
-
-  Ms will use events which will make sure the transaction is successful or else it will do '
- a retry mechanism or another event to revert the transactions.
- We will use BASE instead of ACID,we use eventual consistency.
-  
-
-
-
-
-
 ## 1) Configuration Management  
 
 * Reading properties using <b> @ConfigurationProperties</b>  
@@ -898,6 +750,148 @@ In above we have integrated with the userRepository and get the userdetails.Once
 return the spring security User object which is an implementatiton of User Details Service.  
 
 
+
+# Microservices Design Patterns 
+
+## Domain Driven Design  
+
+ We can solve the problems by connecting the software with the domainba expert language as they have solution for problems realted to  domain.DDD will allow us to use the doamina expert language with the developers implementation.
+ Here we will design large application into multiple bounded contexts.
+ With Bounded context we can define the entities and the realtions between them.
+
+## Bounded Context :  
+ 
+ This is the boundary of fucntionality and names used in that bounded context.
+ Following are two different bounded contexts and the entities are same with different names.
+ 
+ For Ex:
+  
+  Hr Department									Engg Department
+  Resource									Engineer
+ 
+With the help of DDD we can identify
+*  Whate are the Entities  
+*  Relation between the entities  
+*  Events needed for communication between the entities.  
+ 
+## Data Consistency :  
+
+In case of RDBMS we have optimistic locking and pessimistic locking will be used to maintain the data consistency.
+
+We need to have a consistent and highly available system.
+
+For high availability we have can use optimistic locking but the draw back is only one user data will be updated in DB and remaining users data cannot be saved.
+
+### Optimstic Locking :
+In optimisitc locking we will allow multiple users to update and before updating the record in DB we will check whether the user record version and 
+database version are same or not.
+For this we will maintain unique value like version or timestamp.This value will be compared before updating the record.
+This is useful when we have limited number of users so that their data wont be lost.
+for Ex: updating the wiki page only few users will update and when saved who ever first saved that data will be updated in DB.
+
+### Pessimistic Locking :
+
+ We will maintain locking on a record so that other users cannot update the same record. This will maintain consistency but reduces availability.
+ 
+ 
+### Distributed Transactions :
+
+  In case of distributed transactions how to improve the availability and consistency 
+
+ 1) Master slave concept :
+  we can have multiple databases aligned one for write and remaining for the read operation.
+  This will improve the availability but we will miss the consistency.
+ 2) Sharding :
+	Here we will create multiple db instances and each instance will have specific rule and data which follow this rules will be saved in specific instance.
+	for Ex: user names starting A- L  will be saved in instance-1 and L-z in instance-2.
+	Here there might be more using starting with A-L this will improves traffic at instance-1.
+	
+### CAP Theorem : (Consistency availability Partition)
+
+As per the CAP theorem we can have only two combinations in any distributed database system.
+
+
+We need a high available and distributed transaction supported system.
+
+
+### CQRS: 
+ In case of CQRS we will have Read and write databases are separated.
+ Why :
+	we can maintain indexes for the read database this will improve the read performance as the data will be arranged in balanced binary tree.Not required indexes in write database will will improve the performance of save operation.
+	There is possibility that consistency will be lost.
+	
+	
+
+### Maintain the transaction across different DBs(Micro services or distributed systems) can be done in different ways :
+1) two phase commit
+2) Event sourcing
+
+* two phase commit  : 
+In two phase commit we will have coordinator who will coordinate the transactions
+ we have prepare phase( prepate the data and gets the confirmations) and commit phase( commit the data and get the confirmations).
+
+ 
+	
+	coordinator						Service-1			Service-2
+	
+	
+					----------------->	
+	prepare
+					------------------------------------->
+	
+					<----------------
+					<----------------------------------------
+	
+					---------------->	
+	Commit
+					------------------------------------->
+	
+					<----------------
+					<----------------------------------------
+	
+
+This is a slow process as there is a coordinator and multiple calls
+
+code https://www.hhutzler.de/blog/a-deeper-dive-into-jpa-2-phase-commit-2pc-and-rac/
+
+* Event Sourcing :
+	Instead of saving the object state we will maintain the sequence of events and based on these event we will identify the object state.
+We will have the list of events in a queue and respective services will fetch and do the operations based on event type.
+
+Why :
+ In case of distributed transactions we have to problems like availability but in case of event sourcing we will continue to send the event types and respective operations will be performed based on event types.
+ This will not stop the users from doing their work like creating.Ex :coffee  service creation will never be stopped.
+ Not required transaction manager or auditing system to maintain history ..as the events will take care of this.
+ 
+
+## CQRS and event source will work together :
+In case of CQRS in order to sync the read database with write database we will generate one event and one of the microservice will be triggered by
+this event type and all the operations will be performed based on these events.
+
+For example :
+
+We have user creation request
+
+	CreatSUer service 	-----> 	USER_CREATED_EVENT + payload	----->	event spurce will hadle this event type
+						
+						succsess ---->  User will be created in WRITE & ALL the Read databases
+						Failure  ---->   In case of any failure a seperate event will be generated to rollback the data.
+						
+
+* Eventual Consistency :
+	In above the read databases will be not consistent for some time after that they will be eventually consistent.
+
+* Strong Consistency :
+	
+	In case master slave mechanism we can configure untill all the read databases are updated with the latest changes we will not return read data to the end user.THis will reduce the performance of the application.
+
+
+##  Communication and transactions between MS:
+
+  Ms will use events which will make sure the transaction is successful or else it will do '
+ a retry mechanism or another event to revert the transactions.
+ We will use BASE instead of ACID,we use eventual consistency.
+  
 
 
 
