@@ -751,7 +751,15 @@ return the spring security User object which is an implementatiton of User Detai
 
 
 
-# Microservices Design Patterns 
+# Microservices Design Patterns  
+
+1.CQRS  
+2.Event Sourcing
+3.SAGA 
+4.Circuit Breaker 
+5.BulkHead 
+
+
 
 ## Domain Driven Design  
 
