@@ -796,12 +796,12 @@ For high availability we have can use optimistic locking but the draw back is on
  
  for Ex: updating the wiki page only few users will update and when saved who ever first saved that data will be updated in DB.
 
-### Pessimistic Locking :
+#### Pessimistic Locking :
 
  We will maintain locking on a record so that other users cannot update the same record. This will maintain consistency but reduces   availability.
  
  
-### Distributed Transactions :
+#### Distributed Transactions :
 
  In case of distributed transactions how to improve the availability and consistency 
 
@@ -813,7 +813,7 @@ For high availability we have can use optimistic locking but the draw back is on
    for Ex: user names starting A- L  will be saved in instance-1 and L-z in instance-2.
    Here there might be more using starting with A-L this will improves traffic at instance-1.
 	
-  ### CAP Theorem : (Consistency availability Partition)
+  #### CAP Theorem : (Consistency availability Partition)
    As per the CAP theorem we can have only two combinations in any distributed database system.
 
    We need a high available and distributed transaction supported system.
