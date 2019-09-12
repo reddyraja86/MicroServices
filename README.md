@@ -861,7 +861,7 @@ This is a slow process as there is a coordinator and multiple calls
 
 code https://www.hhutzler.de/blog/a-deeper-dive-into-jpa-2-phase-commit-2pc-and-rac/
 
-* Event Sourcing :
+## Event Sourcing :
 	Instead of saving the object state we will maintain the sequence of events and based on these event we will identify the object state.
 We will have the list of events in a queue and respective services will fetch and do the operations based on event type.
 
