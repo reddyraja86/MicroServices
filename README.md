@@ -814,7 +814,7 @@ For high availability we have can use optimistic locking but the draw back is on
    Here there might be more using starting with A-L this will improves traffic at instance-1.
 	
   #### CAP Theorem : (Consistency availability Partition)
-   As per the CAP theorem we can have only two combinations in any distributed database system.
+   As per the CAP theorem If we partition your database we can have only two combinations in any distributed database system consitency or avaialbility.  
 
    We need a high available and distributed transaction supported system.
 
