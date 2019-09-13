@@ -863,13 +863,16 @@ There is possibility that consistency will be lost.
 
 ## Event Sourcing :
 
+The concept behind event sourcing is that every change to the state of the application should be captured. In other words, every action performed on an application entity should be persisted. Then, we can query those events. We can also use the list of events to reconstruct the current state of the object.  
+Ex: Google pay where we will capture the events like payment pais,recived etc.  
+
  Instead of saving the object state we will maintain the sequence of events and based on these event we will identify the object  state.
- We will have the list of events in a queue and respective services will fetch and do the operations based on event type.
+ We will have the list of events in a queue and respective services will fetch and do the operations based on event type.  
 
 Why :
- In case of distributed transactions we have to problems like availability but in case of event sourcing we will continue to send the  event types and respective operations will be performed based on event types.
- This will not stop the users from doing their work like creating.Ex :coffee  service creation will never be stopped.
- Not required transaction manager or auditing system to maintain history ..as the events will take care of this.
+ This will not stop the users from doing their work like creating.Ex :coffee  service creation will never be stopped.  
+ Not required transaction manager or auditing system to maintain history ..as the events will take care of this.  
+ In case of distributed transactions we have to problems like availability but in case of event sourcing we will continue to send the  event types and respective operations will be performed based on event types.  
  
 
 ## CQRS and event source will work together :
