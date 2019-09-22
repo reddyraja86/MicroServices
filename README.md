@@ -110,7 +110,11 @@ Design Patterns has to be implemented :
 		spring.application.name=<name of the confg file in GIT>
 		management.security.enabled=false
 		
- - [ ]  How to handle to properties dynamically changes in GIT and @RefreshSCope
+*  <b> Dynamically Updating the Git properties :</b>  
+	Once we update the properties in Git properties file without restrating the client config server. 
+	@configserverproperties :We will get the updated values from service once we call the /refresh endpoint. 
+	@value: We wont get these values event though we call the /refresh endpoint, we need to use  @refreshscope  on controller. 
+
  
  
 ## 2) Discovery Server     
