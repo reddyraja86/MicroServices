@@ -88,7 +88,7 @@ Design Patterns has to be implemented :
 
 		}
 	
-	Add the Git details in application.properties file,
+	Add the Git details in application.properties file,In Git we will have the properties file.  
 	Note: Here the application name and properites file in GIT repo should be same
 	
 		spring.application.name=<git properties file name>
@@ -110,6 +110,8 @@ Design Patterns has to be implemented :
 		spring.application.name=<name of the confg file in GIT>
 		management.security.enabled=false
 		
+ - [ ]  How to handle to properties dynamically changes in GIT and @RefreshSCope
+ 
  
 ## 2) Discovery Server     
   
