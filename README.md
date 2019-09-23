@@ -110,12 +110,20 @@ Design Patterns has to be implemented :
 		spring.application.name=<name of the confg file in GIT>
 		management.security.enabled=false
 		
-*  <b> Dynamically Updating the Git properties :</b>  
-	Once we update the properties in Git properties file without restrating the client config server. 
-	@configserverproperties :We will get the updated values from service once we call the /refresh endpoint. 
-	@value: We wont get these values event though we call the /refresh endpoint, we need to use  @refreshscope  on controller. 
+*  <b> Dynamically Updating the Git properties : </b>  
+	Once we update the properties in Git properties file without restarting the client config server. 
+	@configserverproperties : We will get the updated values from service once we call the actuator /refresh endpoint. 
+	@value: We wont get these values event though we call the /refresh endpoint, we need to use  @RefreshScope  on controller.
+	
+	We need to manually go to each config cient and call these refresh url.This is not feasable in production environmrnt as we need to update the each service and call the refresh method. 
+	
+		POST http://localhost:8080/refresh
+	
+By using Actuator, we can refresh clients. However, in the cloud environment, we would need to go to every single client and reload configuration by accessing actuator endpoint.
 
- 
+To solve this problem, we can use <b> Spring Cloud Bus. </b>
+
+## Spring Cloud Bus :
  
 ## 2) Discovery Server     
   
