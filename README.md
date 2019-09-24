@@ -124,6 +124,22 @@ By using Actuator, we can refresh clients. However, in the cloud environment, we
 To solve this problem, we can use <b> Spring Cloud Bus. </b>
 
 ## Spring Cloud Bus :
+
+Here the config server & config client application will be connected to the rabbitMq bus.Once we do any changes to the configuration in 
+git repository and call the <b> bus/refresh </b> call on any one module will update the configuration details.  
+ 
+we need to add the following dependencies in all the config server & client modules
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-bus-amqp</artifactId>
+		</dependency>
+ 
+ 
  
 ## 2) Discovery Server     
   
