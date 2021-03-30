@@ -14,6 +14,8 @@ Design Patterns has to be implemented :
 9)Log Aggregator  
 10)Spring Visualizagtion using Dashboard  
 11)Testing Microservices  
+12)Real Time Data Streaming with MongoDB Change Streams
+13)CDC change data capture
 
 ##  Pending Tasks  
 - [ ]  Transactions in MicroServices
